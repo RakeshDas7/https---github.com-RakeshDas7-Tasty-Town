@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Tag(name = "Category Api", description = "This controller manages crud oprations for category api") // to change category-controller to category api and descriptions...
 public class CategoryController {
     private final CategoryService categoryService;
-    @PostMapping("path")
+    @PostMapping
     @ApiResponse(responseCode = "201", description = "Category created")// for return 201 in swagger api
     @Operation(summary = "Create a new category") //to provide the descriptions in swagger api in the side od post api or get api etc....
     public ResponseEntity<Category> createCategory(@RequestBody CategoryRequestDTO requestDTO) {
