@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tastytown.backend.dto.CategoryRequestDTO;
 import com.tastytown.backend.entity.Category;
+import com.tastytown.backend.exception.CategoryNotFoundException;
 import com.tastytown.backend.repository.CategoryRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,17 @@ public class CategoryService {
     }
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
+    }
+    public Category getCategoryById(String categoryId) {
+        return categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException("Category not Found With ID : " + categoryId));
+    }
+    public Category updateCategory(String categoryId, CategoryRequestDTO requestDTO) {
+        var existingCategory = getCategoryById(categoryId);
+        existingCategory.setCategoryName(requestDTO.getCategoryName());
+
+        return categoryRepository.save(existingCategory);
+    }
+    public void deleteCategory(String categoryId) {
+        categoryRepository.deleteById(categoryId);
     }
 }
