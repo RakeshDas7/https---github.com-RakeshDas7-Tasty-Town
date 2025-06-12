@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tastytown.backend.dto.FoodRequestDTO;
 import com.tastytown.backend.dto.FoodResponseDTO;
+import com.tastytown.backend.entity.Food;
 import com.tastytown.backend.mapper.FoodMapper;
 import com.tastytown.backend.repository.CategoryRepository;
 import com.tastytown.backend.repository.FoodRepository;
@@ -47,6 +50,22 @@ public class FoodServiceImpl implements IFoodService {
         return FoodMapper.convertToDTO(savedFood);
     }
 
+    @Override
+    public List<FoodResponseDTO> getAllFoods(){
+        List<Food> foods = foodRepository.findAll();
+
+        // return foods.stream().map((food) -> FoodMapper.convertToDTO(food)).toList();
+
+        return foods.stream().map(FoodMapper::convertToDTO).toList();
+    }
+    
+    @Override
+    public FoodResponseDTO getFoodById(String foodId) {
+       Food food = foodRepository.findById(foodId).orElseThrow(() -> new NoSuchElementException("Food Not Found with id " + foodId));
+
+       return FoodMapper.convertToDTO(food);
+    }
+    
     private String uploadFile(MultipartFile foodImage) throws IOException {
         if (!foodImage.isEmpty()) {
             var fileName = foodImage.getOriginalFilename(); // it returns the File name including the extension
@@ -66,4 +85,5 @@ public class FoodServiceImpl implements IFoodService {
         var newFileName = UUID.randomUUID().toString();
         return newFileName + extensionName;
     }
+
 }

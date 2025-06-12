@@ -1,9 +1,12 @@
 package com.tastytown.backend.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -39,5 +42,15 @@ public class FoodController {
 
             return new ResponseEntity<>(foodService.createFood(requestDTO, foodImage), HttpStatus.CREATED);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FoodResponseDTO>> getAllFoods(){
+        return ResponseEntity.ok(foodService.getAllFoods());
+    }
+
+    @GetMapping("/{foodId}")
+    public ResponseEntity<FoodResponseDTO> getFoodById(@PathVariable String foodId){
+        return ResponseEntity.ok(foodService.getFoodById(foodId));
     }
 }

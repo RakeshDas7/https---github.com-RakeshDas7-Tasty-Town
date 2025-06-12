@@ -6,7 +6,9 @@ import com.tastytown.backend.entity.Category;
 import com.tastytown.backend.entity.Food;
 
 public class FoodMapper {
-    private FoodMapper(){}
+    private FoodMapper() {
+    }
+
     public static Food convertToEntity(FoodRequestDTO requestDTO, Category existingCategory, String fileName) {
         return Food.builder()
                 .foodName(requestDTO.foodName())
@@ -16,7 +18,7 @@ public class FoodMapper {
                 .category(existingCategory)
                 .build();
     }
-    
+
     public static FoodResponseDTO convertToDTO(Food savedFood) {
         return new FoodResponseDTO(
                 savedFood.getFoodId(),
