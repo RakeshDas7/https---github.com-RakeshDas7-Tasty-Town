@@ -57,7 +57,7 @@ public class CategoryController {
     }
     
     @PutMapping("/{categoryId}")
-    @Operation(summary = "Extract A Category By Id")
+    @Operation(summary = "Update A Category By Id")
     public ResponseEntity<Category> updateCategory(@PathVariable String categoryId, @RequestBody CategoryRequestDTO requestDTO){
         return ResponseEntity.ok(categoryService.updateCategory(categoryId, requestDTO));
     }
